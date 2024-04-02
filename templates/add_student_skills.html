@@ -1,0 +1,92 @@
+{% include 'student_head.html'%}
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+     body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card {
+            background: #fff5ee;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+    <script>
+        var addedSkills = [];
+        var skill_ids = [];
+
+        function addSkill(skillId, skillName) {
+            if (!addedSkills.includes(skillName)) {
+                var newSkill = document.createElement('div');
+                newSkill.className = 'form-control p-3 mt-3 text-center';
+                newSkill.innerHTML = '<label>' + skillName + '<span style="margin-right: 5px;"></span><span class="badge btn" style="background-color:#f08080;width:50px;font-weight:bold;" onclick="deleteSkill(\'' + skillName + '\')">-</span></label>';
+                var newSkillLabel = newSkill.getElementsByTagName('label')[0];
+                var newSkillText = newSkillLabel.textContent.trim();
+                document.getElementById('newSkills').appendChild(newSkill);
+                skill_ids.push(skillId);
+                document.getElementById('skill_id').value = skill_ids
+                addedSkills.push(skillName);
+            }
+        }
+
+        function deleteSkill(skillName) {
+            var newSkillsDiv = document.getElementById('newSkills');
+            var skills = newSkillsDiv.getElementsByClassName('form-control p-3 text-center');
+            for (var i = 0; i < skills.length; i++) {
+                var skillLabel = skills[i].getElementsByTagName('label')[0];
+                var labelText = skillLabel.textContent.trim();
+                var skillText = labelText.substring(0, labelText.length - 1); // Remove the last character (the button text)
+                if (skillText === skillName) {
+                    newSkillsDiv.removeChild(skills[i]);
+                    addedSkills.splice(addedSkills.indexOf(skillName), 1);
+                    break;
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container mt-1">
+        <div class="row">
+            <div class="col-md-5 mt-5">
+                <div class="card p-3" style="background-color:#d3d3d3;">
+                    <h5 class="text-center mt-2 fs-2" style="color:#800080;font-size:22px;"><b>Add Your Skills</b></h5>
+                    <div class="row mt-4">
+                        {% for skill in skills %}
+                            <div class="col-md-4 p-3">
+                                <div class="row">
+                                    <div class="form-control p-3 mt-3 text-center">
+                                        <label>{{ skill[1] }}  <span class="badge btn" style="background-color:#66cdaa;width:50px;font-weight:bold;" onclick="addSkill('{{ skill[0] }}', '{{ skill[1] }}')">+</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class=" col-md-3 mt-4">
+                <div id="newSkills"></div>
+            </div>
+            <div class=" col-md-2 mt-4"></div>
+            <div class=" col-md-2 mt-5">
+                <form action="add_student_skills_1" method="post">
+                    <input type="hidden" value="{{student_id}}" name="student_id">
+                    <input type="hidden" id="skill_id" name="skill_id">
+                    <input type="submit" value="Add Skill"  class="btn" style="background-color:#483d8b;width:120px;font-weight:bold;color:white;">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>

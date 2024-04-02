@@ -1,0 +1,61 @@
+{% include 'university_head.html' %}
+
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card {
+            background: #fff5ee;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 mt-5"></div>
+            <div class="col-md-4 mt-5">
+                <div class="card p-2" style="background-color:#dcdcdc;">
+                    <h5 class="text-center mt-3" style="color:#a52a2a;font-size:22px;"><b>Add Studies</b></h5>
+                    <form action="add_studies" method="post">
+                        <div class="text-center mt-4">
+                            <b><label for="study_name" style="color:black;font-size:17px;">Study Name </label></b>
+                            <input type="text" name="study_name" id="study_name" width="10px;" placeholder="Enter Study Name" required>
+                        </div>
+                        <div class="text-center mt-3">
+                            <input type="submit" value="Add Studies" class="btn" style="background-color:black;width:110px;font-weight:bold;color:white;">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-5 mt-5">
+                <div class="row">
+                    <div class="card p-2" style="background-color:#dcdcdc;">
+                        <h5 class="text-center mt-3" style="color:#a52a2a;font-size:22px;"><b>View Studies</b></h5>
+                        <div class="row mt-4">
+                            {% for study in studies: %}
+                                <div class="col-md-6">
+                                    <ul>
+                                        <li>{{study[1]}}</li>
+                                    </ul>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

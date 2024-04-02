@@ -1,0 +1,111 @@
+{% include 'university_head.html'%}
+
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+        }
+    /* ======================= Cards ====================== */
+        .cardBox {
+          position: relative;
+          top: 50%;
+          left: 5%;
+          width: 100%;
+          padding: 20px;
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          grid-gap: 30px;
+        }
+
+        .cardBox .card {
+          background: #808080;
+          position: relative;
+          padding: 30px;
+          border-radius: 20px;
+          display: flex;
+          justify-content: space-between;
+          box-shadow: 0 8px 16px 0 black;
+        }
+
+        .cardBox .card .numbers {
+          position: relative;
+          font-weight: 500;
+          font-size: 2.5rem;
+          color: #ffffe0;
+        }
+
+        .cardBox .card .cardName {
+          color: #ffffe0;
+          font-size: 1.1rem;
+          margin-top: 5px;
+        }
+
+        .cardBox .card .iconBx {
+          font-size: 3.5rem;
+          color: #ffffe0;
+        }
+
+        .cardBox .card:hover {
+          background: var(--blue);
+        }
+        .cardBox .card:hover .numbers,
+        .cardBox .card:hover .cardName,
+        .cardBox .card:hover .iconBx {
+          color: var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ======================= Cards ================== -->
+        <div class="cardBox mt-5">
+            <div class="card">
+                <div>
+                    <div class="numbers">{{ recruiters_count }}</div>
+                    <div class="cardName">Recruiters</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <div class="numbers">{{skills_count}}</div>
+                    <div class="cardName">Skills</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="eye-outline"></ion-icon>
+                </div>
+            </div>
+            <div class="card">
+                <div>
+                    <div class="numbers">{{jobpost_count}}</div>
+                    <div class="cardName">Job Posts</div>
+                </div>
+
+                <div class="iconBx">
+                    <ion-icon name="bag-handle-outline"></ion-icon>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="numbers">{{applications_count}}</div>
+                    <div class="cardName">Applications</div>
+                </div>
+                <div class="iconBx">
+                    <ion-icon name="book-outline"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ====== ionicons ======= -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>

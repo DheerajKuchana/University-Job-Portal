@@ -1,0 +1,49 @@
+{% include 'student_head.html'%}
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            get_job_post();
+
+            // Function to handle input change in the search box
+            $('#search_job').on("keyup", function() {
+                get_job_post($(this).val().toLowerCase()); // Convert search query to lowercase
+            });
+
+            function get_job_post(searchQuery = '') {
+                let url = "http://127.0.0.1:5000/get_job_post";
+                // Append search query to the URL
+                if (searchQuery !== '') {
+                    url += "?search_query=" + searchQuery;
+                }
+                $.get(url,function(data,status){
+                    $("#jobposts").html(data);
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <div class="container mt-5">
+        <form id="job_posts">
+            <div class="row">
+                <div>
+                    <input type="text" id="search_job" class="form-control" placeholder="Search By Job Title, Company Name, Experience">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="jobposts">
+
+    </div>
+</body>

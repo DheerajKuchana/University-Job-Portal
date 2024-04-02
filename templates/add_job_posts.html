@@ -1,0 +1,104 @@
+{% if session["role"] == 'university':%}
+    {% include 'university_head.html' %}
+{% else:%}
+    {% include 'recruiter_head.html' %}
+{% endif %}
+
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card {
+            background: #fff5ee;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 mt-4">
+                <div class="row">
+                    <div class="card p-3" style="background-color:#dcdcdc;">
+                        <h5 class="text-center mt-3" style="color:#a52a2a;font-size:22px;"><b>Add Job Posts</b></h5>
+                        <form action="add_job_post1" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                     <div class="mt-4 text-center">
+                                        <b><label for="company_name" style="color:black;font-size:17px;">Company Name</label></b>
+                                        <input type="text" name="company_name" id="company_name" class="form-control" placeholder="Enter Company Name" required>
+                                     </div>
+                                    <div class="mt-4 text-center">
+                                        <b><label for="experience_needed" style="color:black;font-size:17px;">Experience</label></b>
+                                        <input type="text" name="experience_needed" id="experience_needed" class="form-control" placeholder="Enter Experience" required>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <b><label for="end_date" style="color:black;font-size:17px;">End Date</label></b>
+                                        <input type="date" name="end_date" id="end_date" class="form-control" placeholder="Enter End Date" required>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <b><label for="job_type" style="color:black;font-size:17px;">Job Type</label></b>
+                                        <select name="job_type" id="job_type" class="form-control">
+                                            <option value=" ">Choose Job Type</option>
+                                            <option value="full_time">Full Time</option>
+                                            <option value="part_time">Part Time</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <b><label for="degree_id" style="color:black;font-size:17px;">Select Qualification</label></b>
+                                        <select name="degree_id" id="degree_id" class="form-control" multiple>
+                                            <option value="">Choose Qualification</option>
+                                            {% for degree in degrees: %}
+                                            {% set studies_name = get_studies_id(degree[3]) %}
+                                                <option value="{{degree[0]}}">{{studies_name}} - {{degree[1]}} - {{degree[2]}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mt-4 text-center">
+                                        <b><label for="job_title" style="color:black;font-size:17px;">Job Title</label></b>
+                                        <input type="text" name="job_title" id="job_title" class="form-control" placeholder="Enter Job Title" required>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <b><label for="no_of_vacancies" style="color:black;font-size:17px;">No of Vacancies</label></b>
+                                        <input type="number" name="no_of_vacancies" id="no_of_vacancies" class="form-control" placeholder="No of Vacancies" required>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <b><label for="description" style="color:black;font-size:17px;">Description</label></b>
+                                        <input type="text" name="description" id="description" class="form-control" placeholder="Enter Description" required>
+                                    </div>
+                                    <div class="mt-4 text-center">
+                                        <b><label for="skill_id" style="color:black;font-size:17px;">Select Required Skills</label></b>
+                                        <select name="skill_id" id="skill_id" class="form-control" multiple>
+                                            <option value="">Choose Skills</option>
+                                            {% for skill in skills: %}
+                                                <option value="{{skill[0]}}">{{skill[1]}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <input type="submit" value="Add Job Post" class="btn" style="background-color:black;width:120px;font-weight:bold;color:white;">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

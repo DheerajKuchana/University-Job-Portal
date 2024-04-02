@@ -1,0 +1,212 @@
+{% if session["role"] == 'university' %}
+    {% include 'university_head.html' %}
+{% elif session["role"] == 'student' %}
+    {% include 'student_head.html' %}
+{% elif session["role"] == 'recruiter' %}
+    {% include 'recruiter_head.html' %}
+{% endif %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Input Fields</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .card {
+            background: #dcdcdc;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+            margin: 10px;
+            flex: 1; /* Allow cards to grow equally */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            {% for application in applications %}
+                <div class="col-md-6 p-3">
+                    <div class="card p-3">
+                        {% set jobpost = get_jobpost_id(application[4]) %}
+                        <div class="text-center">
+                            <label><a href="view_jobpost_details?jobpost_id={{jobpost[0]}}">{{jobpost[3]}}</a></label>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-4">
+                                <div class="mt-3 text-center">
+                                    <label>Applied On <div class="mt-1" style="font-size:19px;color:black;"><b>{{application[1]}}</b></div></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mt-3 text-center">
+                                    <label>Status <div class="mt-1" style="font-size:19px;color:black;"><b>{{application[2]}}</b></div></label>
+                                </div>
+                            </div>
+                            {% set interview_schedule,interview_date1 = get_interview_date(application[0]) %}
+                            {% if interview_schedule: %}
+                                <div class="mt-3 text-center">
+                                    <label>Interview Date <div class="mt-1" style="font-size:19px;color:black;"><b>{{ interview_date1 }}</b></div></label>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="text-center mt-4">
+                            {% if session["role"] == 'student' %}
+                                {% if application[2] == 'Interview Scheduled'%}
+                                    <a href="student_accept_interview_schedule?application_id={{application[0]}}" class="btn" style="background-color:#8fbc8f;width:220px;font-weight:bold;">Accept Interview Schedule</a>
+                                    <a href="student_reject_interview_schedule?application_id={{application[0]}}" class="btn" style="background-color:#e9967a;width:220px;font-weight:bold;">Reject Interview Schedule</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        {% if session["role"] == 'university' or session["role"] == 'recruiter' %}
+                        {% set student = get_student_details(application[3]) %}
+                            <hr>
+                            <div class="text-center">
+                                <label style="color:#a52a2a;"><b>Student Details</b></label>
+                            </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mt-3 text-center">
+                                            <label>Name</label>
+                                            <div><b style="font-size:19px;color:black;">{{student[1]}}</b></div>
+                                        </div>
+                                        <div class="mt-2 text-center">
+                                            <label>Email</label>
+                                            <div><b style="font-size:19px;color:black;">{{student[2]}}</b></div>
+                                        </div>
+                                        <div class="mt-2 text-center">
+                                            <label>Phone</label>
+                                            <div><b style="font-size:19px;color:black;">{{student[3]}}</b></div>
+                                        </div>
+                                        <div class="mt-2 text-center">
+                                            <label>Degree</label>
+                                            <div><b style="font-size:19px;color:black;">{{studies[1]}}</b></div>
+                                            <div><b style="font-size:19px;color:black;">{{degree[1]}} - {{degree[2]}}</b></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        {% set skill_names = get_skills(application[3]) %}
+                                        <div class="mt-3 text-center">
+                                            <label>Skills
+                                                <div>
+                                                    {% for skill_name in skill_names %}
+                                                        <b style="font-size:19px;color:black;">{{skill_name}}</b>
+                                                        {% if not loop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                </div>
+                                            </label>
+                                        </div>
+                                        {% set qualification_details = get_student_qualification(application[3]) %}
+                                        <div class="mt-3 text-center">
+                                            <label>Qualification
+                                                {% if qualification_details %}
+                                                    {% for qualification_detail in qualification_details %}
+                                                        <ul>
+                                                            <li><b style="font-size:19px;color:black;"><div>{{qualification_detail[1]}} from {{qualification_detail[4]}}</div></b></li>
+                                                            <div style="font-size:19px;color:black;"><b>({{qualification_detail[2]}} to {{qualification_detail[3]}})</b></div>
+                                                        </ul>
+                                                    {% endfor %}
+                                                {% else: %}
+                                                    <div class=" mt-1 text-center" style="font-size:19px;color:#cd5c5c;">
+                                                        <label>No Qualification Added</label>
+                                                    </div>
+                                                {% endif %}
+                                            </label>
+                                        </div>
+                                        {% set work_experience_details = get_student_work_experience(application[3]) %}
+                                        <div class="mt-3 text-center">
+                                            <label>Work Experience
+                                                {% if work_experience_details: %}
+                                                    {% for work_experience_detail in work_experience_details: %}
+                                                        {% if work_experience_detail[5] != 'No Work Experience'%}
+                                                            <ul>
+                                                                <li><b style="font-size:19px;color:black;">{{work_experience_detail[4]}} in {{work_experience_detail[1]}} ({{work_experience_detail[2]}} to {{work_experience_detail[3]}})</b></li>
+                                                            </ul>
+                                                        {% else: %}
+                                                            <div class=" mt-1 text-center" style="font-size:19px;color:#000080;">
+                                                                <label>{{work_experience_detail[5]}}</label>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <label>Resume: <a href="/static/images/{{student[8]}}" target="_blank" style="color:#c71585;">{{student[8]}}</a></label>
+                                    </div>
+                                </div>
+                        {% endif %}
+                        {% if session["role"] == 'recruiter' %}
+                            {% if application[2] == 'Applied Job Application' %}
+                                <div class="text-center mt-4">
+                                    <a href="accept_application?application_id={{application[0]}}" class="btn" style="background-color:#8fbc8f;width:190px;font-weight:bold;">Accept Application</a>
+                                    <a href="reject_application?application_id={{application[0]}}" class="btn" style="background-color:#e9967a;width:190px;font-weight:bold;">Reject Application</a>
+                                </div>
+                            {% endif %}
+                            {% set is_end_date_today = get_end_date(application[4]) %}
+                            {% if is_end_date_today %}
+                                {% if application[2] == 'Student Accepted Interview Schedule'%}
+                                    <div class="text-center mt-4">
+                                        <a href="selected_application?application_id={{application[0]}}" class="btn" style="background-color:#8fbc8f;width:190px;font-weight:bold;">Selected</a>
+                                        <a href="rejected_application?application_id={{application[0]}}" class="btn" style="background-color:#e9967a;width:190px;font-weight:bold;">Rejected</a>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                {% if application[2] == 'Student Accepted Interview Schedule'%}
+                                    <div class="mt-5 text-center" style="font-size:19px;color:red;">
+                                        <b><label>Unfortunately, the application period for this job has ended</label></b>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        {% if session["role"] == 'university' %}
+                            {% set recruiter_id = get_recruiter_id_byjobpost_id(application[4])%}
+                            {% if recruiter_id == None: %}
+                                {% if application[2] == 'Applied Job Application' %}
+                                     <div class="text-center mt-4">
+                                        <a href="accept_application?application_id={{application[0]}}" class="btn" style="background-color:#8fbc8f;width:190px;font-weight:bold;">Accept Application</a>
+                                        <a href="reject_application?application_id={{application[0]}}" class="btn" style="background-color:#e9967a;width:190px;font-weight:bold;">Reject Application</a>
+                                    </div>
+                                {% endif %}
+                                {% set is_end_date_today = get_end_date(application[4]) %}
+                                {% if is_end_date_today %}
+                                    {% if application[2] == 'Student Accepted Interview Schedule'%}
+                                        <div class="text-center mt-4">
+                                            <a href="selected_application?application_id={{application[0]}}" class="btn" style="background-color:#8fbc8f;width:190px;font-weight:bold;">Selected</a>
+                                            <a href="rejected_application?application_id={{application[0]}}" class="btn" style="background-color:#e9967a;width:190px;font-weight:bold;">Rejected</a>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    {% if application[2] == 'Student Accepted Interview Schedule'%}
+                                        <div class="mt-5 text-center" style="font-size:19px;color:red;">
+                                            <b><label>Unfortunately, the application period for this job has ended</label></b>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>

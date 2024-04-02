@@ -1,0 +1,130 @@
+{% include 'student_head.html'%}
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card {
+            background: #dcdcdc;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-1">
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10 mt-4">
+                <div class="card p-3" style="background-color:#dcdcdc;">
+                    <h5 class="text-center mt-3" style="color:#a52a2a;font-size:22px;"><b>My Profile</b></h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mt-4 text-center">
+                                <label>Name: <b style="font-size:19px;color:black;">{{student[1]}}</b></label>
+                             </div>
+                            <div class="mt-2 text-center">
+                                <label>Email: <b style="font-size:19px;color:black;">{{student[2]}}</b></label>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <label>DOB: <b style="font-size:19px;color:black;">{{student[5]}}</b></label>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <label>Gender: <b style="font-size:19px;color:black;">{{student[6]}}</b></label>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <label>Resume:</label>
+                                <a href="/static/images/{{student[8]}}" target="_blank">{{student[8]}}</a>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <label>Skills:
+                                    {% if skill_names: %}
+                                        {% for skill_name in skill_names: %}
+                                            <b style="font-size:19px;color:black;">{{skill_name}}</b>
+                                            {% if not loop.last %}, {% endif %}
+                                        {% endfor %}
+                                    {% else: %}
+                                            <label style="font-size:19px;color:#000080;">Click on "Add Your Skills" button </label>
+                                    {% endif %}
+                                </label>
+                            </div>
+                            <hr>
+                            <div class="mt-2 text-center">
+                                <label>Qualification
+                                    {% if qualification_details: %}
+                                        {% for qualification_detail in qualification_details: %}
+                                            <ul>
+                                                <li><b style="font-size:19px;color:black;">{{qualification_detail[1]}} from {{qualification_detail[4]}} ({{qualification_detail[2]}} to {{qualification_detail[3]}})</b></li>
+                                            </ul>
+
+                                        {% endfor %}
+                                    {% else: %}
+                                        <div class="mt-1 text-center" style="font-size:19px;color:#000080;">
+                                            <label>Click on "Add/View Your Qualification" button </label>
+                                        </div>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mt-4 text-center">
+                                <label>Phone: <b style="font-size:19px;color:black;">{{student[3]}}</b></label>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <label>Password: <b style="font-size:19px;color:black;">{{student[4]}}</b></label>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <label>Address: <b style="font-size:19px;color:black;">{{student[7]}}</b></label>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <label>Degree: <b style="font-size:19px;color:black;">{{studies[1]}}</b></label>
+                                <div><b style="font-size:19px;color:black;">{{degree[1]}} - {{degree[2]}}</b></div>
+                            </div>
+                            <hr class="mt-5">
+                            <div class="mt-2 text-center">
+                                <label>Work Experience
+                                    {% if work_experience_details: %}
+                                        {% for work_experience_detail in work_experience_details: %}
+                                            {% if work_experience_detail[5] != 'No Work Experience'%}
+                                                <ul>
+                                                    <li><b style="font-size:19px;color:black;">{{work_experience_detail[4]}} in {{work_experience_detail[1]}} ({{work_experience_detail[2]}} to {{work_experience_detail[3]}})</b></li>
+                                                </ul>
+                                            {% else: %}
+                                                <div class=" mt-1 text-center" style="font-size:19px;color:#cd5c5c;">
+                                                    <label>{{work_experience_detail[5]}}</label>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else: %}
+                                        <div class=" mt-1 text-center" style="font-size:19px;color:#000080;">
+                                            <label>Click on "Add/View Your Experience" button </label>
+                                        </div>
+                                    {% endif %}
+                                </label>
+                            </div>
+                        </div>
+                         <div class="mt-5 text-center">
+                            <a href="add_student_skills?student_id={{student[0]}}" class="btn" style="background-color:black;width:130px;font-weight:bold;color:white;">Add Your Skills</a>
+                            <a href="add_student_qualification" class="btn" style="background-color:black;width:250px;font-weight:bold;color:white;" >Add/View Your Qualification</a>
+                            <a href="add_student_experience" class="btn" style="background-color:black;width:250px;font-weight:bold;color:white;">Add/View Your Experience</a>
+                         </div>
+                        <div class="mt-5 text-center">
+                            <a href="update_profile?student_id={{student[0]}}" class="btn" style="background-color:#dcdcdc;width:130px;font-weight:bold;color:black;">Update Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</body>

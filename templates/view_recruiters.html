@@ -1,0 +1,67 @@
+{% include 'university_head.html' %}
+
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+        }
+        .card {
+            background: #808080;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            {% for recruiter in recruiters: %}
+                <div class="col-md-3 mt-5">
+                    <div class="card p-3" style="background-color:#dcdcdc;height:400px;">
+                        <div class="mt-3 text-center">
+                            <label>Name: <b style="font-size:19px;color:black;">{{recruiter[1]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Email: <b style="font-size:19px;color:black;">{{recruiter[2]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Password: <b style="font-size:19px;color:black;">{{recruiter[4]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Phone: <b style="font-size:19px;color:black;">{{recruiter[3]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Experience: <b style="font-size:19px;color:black;">{{recruiter[5]}} yrs</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Address: <b style="font-size:19px;color:black;">{{recruiter[6]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Status: <b style="font-size:19px;color:#a52a2a;">{{recruiter[7]}}</b></label>
+                        </div>
+                        <div class="text-center">
+                            {% if recruiter[7] == 'Not Approved': %}
+                                <a href="approve?recruiter_id={{recruiter[0]}}" class="btn mt-3 " style="background-color:black;width:90px;font-weight:bold;color:white;">Approve</a>
+                                <a href="decline?recruiter_id={{recruiter[0]}}" class="btn mt-3 " style="background-color:#a52a2a;width:90px;font-weight:bold;color:white;">Decline</a>
+                            {% endif %}
+                        </div>
+                        <div class="text-center">
+                            {% if recruiter[7] == 'Declined': %}
+                                <a href="approve?recruiter_id={{recruiter[0]}}" class="btn mt-3 " style="background-color:#8fbc8f;width:90px;font-weight:bold;">Approve</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>

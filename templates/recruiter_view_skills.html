@@ -1,0 +1,51 @@
+{% include 'recruiter_head.html' %}
+
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card {
+            background: #dcdcdc;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mt-5"></div>
+            <div class="col-md-4 mt-5">
+                <div class="row">
+                    <div class="card p-2" style="background-color:#dcdcdc;">
+                        <h5 class="text-center mt-3" style="color:#a52a2a;font-size:22px;"><b>View Skills</b></h5>
+                        {% if count > 0: %}
+                            <div class="row mt-4">
+                                {% for skill in skills: %}
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li>{{skill[1]}}</li>
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center mt-4">No Skills Added</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

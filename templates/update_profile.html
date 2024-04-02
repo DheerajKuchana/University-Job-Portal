@@ -1,0 +1,69 @@
+{% include 'student_head.html'%}
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card {
+            background: #dcdcdc;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 mt-4">
+                <div class="card p-3" style="background-color:#dcdcdc;">
+                    <h5 class="text-center mt-3" style="color:#a52a2a;font-size:22px;"><b>My Profile Updation</b></h5>
+                    <form action="/update_student_profile1" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="hidden" name="student_id" value="{{student[0]}}">
+                                <div class="mt-4 text-center">
+                                    <label>Name: <input type="text" value="{{student[1]}}" name="name" class="form-control"></label>
+                                 </div>
+                                <div class="mt-2 text-center">
+                                    <label>Email: <input type="text" value="{{student[2]}}" name="email" class="form-control"></label>
+                                </div>
+                                <div class="mt-2 text-center">
+                                    <label>DOB: <input type="text" value="{{student[5]}}" name="date_of_birth" class="form-control"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mt-4 text-center">
+                                    <label>Phone: <input type="text" value="{{student[3]}}" name="phone" class="form-control"></label>
+                                </div>
+                                <div class="mt-2 text-center">
+                                    <label>Password: <input type="text" value="{{student[4]}}" name="password" class="form-control"></label>
+                                </div>
+                                <div class="mt-2 text-center">
+                                    <label>Address: <input type="text" value="{{student[7]}}" name="address" class="form-control"></label>
+                                </div>
+                            </div>
+                            <div class="mt-5 text-center">
+                                <label>Resume: <input type="file" name="resume"></label>
+                            </div>
+                            <div class="mt-5 text-center">
+                                <input type="submit" value="Update" class="btn" style="background-color:black;width:130px;font-weight:bold;color:white;">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,114 @@
+<head>
+    <style>
+        body{
+            background:url("https://marvel-b1-cdn.bc0a.com/f00000000155119/www.ucmo.edu/images/horizontal-images/buildings/union02.jpg");
+            background-repeat:no-repeat;
+            background-size:1600px;
+            margin:auto;
+            font-family: garamond;
+            font-size: 20px;
+        }
+        .card {
+            background: #dcdcdc;
+            border-radius: 10px; /* Add border radius */
+            box-shadow: 0 8px 16px 0 black;
+            padding: 20px; /* Increase padding */
+            color: #212529; /* Change text color */
+        }
+        .btn {
+           box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            {% for jobpost in jobposts: %}
+                <div class="col-md-5 p-3">
+                    <div class="card p-3" style="background-color:#dcdcdc;height:730px;">
+                        <div class="mt-3 text-center">
+                            <label>Company Name: <b style="font-size:19px;color:black;">{{jobpost[1]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Job Title: <b style="font-size:19px;color:black;">{{jobpost[3]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Job Type: <b style="font-size:19px;color:black;">{{jobpost[2]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Experience: <b style="font-size:19px;color:black;">{{jobpost[5]}} yrs</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>No of Vacancies: <b style="font-size:19px;color:black;">{{jobpost[8]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>Posted Date: <b style="font-size:19px;color:black;">{{jobpost[6]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            <label>End Date: <b style="font-size:19px;color:black;">{{jobpost[7]}}</b></label>
+                        </div>
+                        <div class="mt-2 text-center">
+                            {% set skill_names = get_jobpost_id_by_jobpost(jobpost[0]) %}
+                            <label>Skills Required:
+                                {% for skill_name in skill_names: %}
+                                    <b style="font-size:19px;color:black;">{{skill_name}}</b>
+                                    {% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <div class="mt-3 text-center">
+                            {% set degree_details = get_degree_details(jobpost[0]) %}
+                            <label>Qualification Required:
+                                {% for degree_detail in degree_details: %}
+                                    <div>
+                                        <b style="font-size:19px;color:black;"> {{degree_detail[2]}} - {{degree_detail[0]}} - {{degree_detail[1]}}</b>
+                                    </div>
+                                {% endfor %}
+                            </label>
+                        </div>
+                        <hr>
+                        {% set recruiter = get_recruiter_id_by_jobpost(jobpost[0]) %}
+                        {% if recruiter[0] == Null: %}
+                            <div class="text-center">
+                                <label style="color:#a52a2a;"><b>Job Posted By University</b></label>
+                            </div>
+                        {% else: %}
+                            <div class="text-center">
+                                <label style="color:#a52a2a;"><b>Recruiter Details</b></label>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mt-2">
+                                        <label>Name: {{recruiter[1]}}</label>
+                                    </div>
+                                    <div class="mt-2">
+                                        <label>Email: {{recruiter[2]}}</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mt-2">
+                                        <label>Phone: {{recruiter[3]}}</label>
+                                    </div>
+                                    <div class="mt-2">
+                                        <label>Address: {{recruiter[6]}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% set is_end_date_today = get_end_date(jobpost[0]) %}
+                        {% set application = get_status_by_jobpost_id(jobpost[0]) %}
+                        {% if is_end_date_today and application[2] != 'Applied Job Application' %}
+                            <div class="mt-5 text-center">
+                                <a href="apply_job?jobpost_id={{jobpost[0]}}" class="btn" style="background-color:black;width:120px;font-weight:bold;color:white;">Apply</a>
+                            </div>
+                        {% elif is_end_date_today == False %}
+                            <div class="mt-5 text-center" style="font-size:19px;color:red;">
+                                <b><label>Unfortunately, the application period for this job has ended</label></b>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
